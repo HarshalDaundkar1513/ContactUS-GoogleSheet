@@ -101,20 +101,25 @@ Open the file named `index.html`. On line 12 replace `<SCRIPT URL>` with your sc
 <script>
   const scriptURL = '<SCRIPT URL>'
     const form = document.forms['submit-to-google-sheet']
+    const spinner = document.getElementById('spinner')
 
     form.addEventListener('submit', e => {
       e.preventDefault()
+      spinner.style.display = 'flex'
       fetch(scriptURL, { method: 'POST', body: new FormData(form) })
         .then(response => {
-          console.log('Success!', response);
-          // Reset the form
-          form.reset();
-          // Show alert
-          alert('Form submitted successfully!');
+              console.log('Success!', response);
+              form.reset();
+              alert('Form submitted successfully!');
+              spinner.style.display = 'none'
+            })
+        .catch(error => {
+              console.error('Error!', error.message)
+              alert('Form submission failed. Please try again.');
+              spinner.style.display = 'none'
+            })
         })
-        .catch(error => console.error('Error!', error.message))
-    })
-  </script>
+    </script>
 ```
 
 ## 7. Adding additional form data
